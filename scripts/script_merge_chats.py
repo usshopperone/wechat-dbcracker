@@ -1,6 +1,6 @@
 import json
 
-chat_file = "chats-朱思奕.json"
+chat_file = "../data/chats-朱思奕.json"
 
 DROP_EMOJI = True
 DROP_IMAGE = True
