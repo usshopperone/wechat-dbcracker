@@ -50,3 +50,10 @@ pgrep -f '^/Applications/WeChat.app/Contents/MacOS/WeChat' | xargs sudo wechat-d
 # monitor into log file
 pgrep -f '^/Applications/WeChat.app/Contents/MacOS/WeChat' | xargs sudo wechat-decipher-macos/macos/dbcracker.d -p > data/dbcracker.log
 ```
+
+## ref
+
+- https://github.com/nalzok/wechat-decipher-macos
+- https://github.com/sqlcipher/sqlcipher
+- https://github.com/rigglemania/pysqlcipher3
+- [Mac终端使用Sqlcipher加解密基础过程详解_Martin.Mu `s Special Column-CSDN博客_mac sqlcipher](https://blog.csdn.net/u011195398/article/details/85266214)
