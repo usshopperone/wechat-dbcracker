@@ -4,16 +4,20 @@ import logging
 import os
 from typing import List
 
-from const import WECHAT_DB_ROOT, DB_CRACK_PATH
+from const import DB_CRACK_PATH
+from src.config import WECHAT_DB_ROOT
 from pysqlcipher3 import dbapi2 as sqlite
 from pysqlcipher3.dbapi2 import Connection
 
 
 logging.basicConfig(
-                    format='%(asctime)s - %(name)15s - %(levelname)5s: %(message)s',
+                    format='%(asctime)s - %(module)15s - %(levelname)5s: %(message)s',
                     datefmt='%Y-%m-%d %H:%M:%S %p',
                     level=logging.DEBUG)
-logger = logging.getLogger("utils")
+logger = logging.getLogger(__name__)
+
+
+db_keys_dict = {}
 
 
 def md5(s: str) -> str:
@@ -34,6 +38,8 @@ def get_db_path(db_file: str):
 
 
 def get_db_key(db_file: str) -> str:
+    if not db_keys_dict:
+        raise Exception("init db_keys_dict first!")
     return db_keys_dict[db_file]
 
 
@@ -67,6 +73,8 @@ def get_table_cols(conn: Connection, table_name: str) -> List[str]:
     return sorted(list(i[1] for i in conn.execute(f"PRAGMA table_info({table_name})")))
 
 
-db_keys_dict = json.load(open(DB_CRACK_PATH))
-logger.debug({"db_keys_dict": db_keys_dict})
+def init_db_keys_dict():
+    global db_keys_dict
+    db_keys_dict = json.load(open(DB_CRACK_PATH))
+    logger.debug({"db_keys_dict": db_keys_dict})
 

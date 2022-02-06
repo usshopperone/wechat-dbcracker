@@ -1,12 +1,13 @@
 import os
 
-ME = "南川"
 FIELD_MD5_NAME = "md5"
 
-WECHAT_DB_ROOT = '/Users/mark/Library/Containers/com.tencent.xinWeChat/Data/Library/Application Support/com.tencent.xinWeChat/2.0b4.0.9/1d35a41b3adb8b335cc59362ad55ee88'
 PROJECT_DIR = os.path.dirname(__file__)
-DATA_DIR = os.path.join(PROJECT_DIR, "data")
+
+DATA_DIR = os.path.join(os.path.dirname(PROJECT_DIR), "data")
+
 DB_CRACK_PATH = os.path.join(DATA_DIR, "db-crack.json")
+
 DB_FILES = (
     "Account/Beta.db",
     "ChatSync/ChatSync.db",
