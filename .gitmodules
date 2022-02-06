@@ -1,4 +1,4 @@
-[submodule "https://github.com/rigglemania/pysqlcipher3"]
-	url = pysqlcipher3
-[submodule "https://github.com/sqlcipher/sqlcipher"]
-	url = sqlcipher
+[submodule pysqlcipher3]
+    url = https://github.com/rigglemania/pysqlcipher3
+[submodule "sqlcipher"]
+	url = https://github.com/sqlcipher/sqlcipher
