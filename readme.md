@@ -1,4 +1,4 @@
-# python driver for hacking wechat on macOS
+# python driver for cracking/hacking wechat on macOS
 
 ## init sqlcipher
 
@@ -30,10 +30,8 @@ SQLCIPHER=$(pwd)/sqlcipher
 git clone https://github.com/rigglemania/pysqlcipher3
 cd pysqlcipher3
 
-mkdir amalgamation
-cp $SQLCIPHER/sqlite3.[hc] amalgamation/
-mkdir src/python3/sqlcipher
-cp  amalgamation/sqlite3.h src/python3/sqlcipher/
+mkdir amalgamation && cp $SQLCIPHER/sqlite3.[hc] amalgamation/
+mkdir src/python3/sqlcipher && cp  amalgamation/sqlite3.h src/python3/sqlcipher/
 
 python setup.py build_amalgamation
 python setup.py install
@@ -42,6 +40,8 @@ cd ..
 ```
 
 ## monitor wechat database keys
+
+> comparing to `wechat-decipher-macos`, I make the script more robust.
 
 ```shell
 # monitor in the terminal
