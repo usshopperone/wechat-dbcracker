@@ -60,7 +60,7 @@ class DBBase:
                 self._pageSize
             )
             # ref: https://stackoverflow.com/a/55986968/9422455
-            # wdd.conn.row_factory = sqlite3.Row
+            # dbc.conn.row_factory = sqlite3.Row
 
     def close(self):
         if not self.conn:

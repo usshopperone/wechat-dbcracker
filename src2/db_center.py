@@ -1,7 +1,9 @@
+import json
 import os
 from typing import Dict, List
 
 from db import DB
+from support.const import DATA_PATH
 from support.log import logger
 
 
@@ -26,6 +28,11 @@ class DBCenter:
                 # 若不为空，且不等，则报错，以保证唯一性
                 assert db.db_name == self.chatsMap.get(table_name, db.db_name)
                 self.chatsMap[table_name] = db.db_name
+
+        chatmap_fp = os.path.join(DATA_PATH, "chatmap.json")
+        with open(chatmap_fp, "w") as f:
+            json.dump(self.chatsMap, f, indent=2, ensure_ascii=False)
+            print(f"generated chatmap to {chatmap_fp}")
 
     @property
     def dbOfContact(self) -> DB:

@@ -9,9 +9,9 @@ from db_center import DBCenter
 
 class Contact:
 
-    def __init__(self, data: IContact, wdd: DBCenter):
+    def __init__(self, data: IContact, dbc: DBCenter):
         self._data = data
-        self._wdd = wdd
+        self._dbc = dbc
 
     @property
     def wxid(self) -> str:
@@ -23,11 +23,11 @@ class Contact:
         数据库的名字（文件位置）
         :return:
         """
-        return self._wdd.chatsMap[self._chatsKey]
+        return self._dbc.chatsMap[self._chatsKey]
 
     @property
     def _msgDb(self) -> DB:
-        return self._wdd.dbs[self.msgDbName]
+        return self._dbc.dbs[self.msgDbName]
 
     @property
     def _chatsKey(self) -> str:

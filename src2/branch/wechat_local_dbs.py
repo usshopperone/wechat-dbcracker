@@ -105,14 +105,14 @@ class WechatLocalDatabases:
         assert os.path.exists(msg_db_path), "not exist: " + msg_db_path
         return msg_db_path
 
-    # def getDbMsgs(wdd):
-    #     if not wdd.dbMsgs:
-    #         for msg_db_name in os.listdir(wdd.messagesPath):
+    # def getDbMsgs(dbc):
+    #     if not dbc.dbMsgs:
+    #         for msg_db_name in os.listdir(dbc.messagesPath):
     #             if msg_db_name.startswith("msg"):
-    #                 wdd.dbMsgs.append()
+    #                 dbc.dbMsgs.append()
     #
     #
-    #     return wdd.dbMsgs
+    #     return dbc.dbMsgs
 
 
 if __name__ == '__main__':

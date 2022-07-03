@@ -1,7 +1,7 @@
 from sqlite3.dbapi2 import Cursor
 from typing import List
 
-from support.contact import Contact
+from contact import Contact
 from support.utils import genFindSql, cursor2dictList
 
 from db_center import DBCenter
