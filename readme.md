@@ -2,8 +2,15 @@
 
 ## init sqlcipher
 
+### check where is your `libcrypto.a`
+
 ```shell
-LIBCRYPTO=/usr/local/Cellar/openssl@3/3.0.1/lib/libcrypto.a
+find /usr/local/Cellar -name libcrypto.a
+```
+
+### then use the libcrypto.a with openssl version >= 3
+```shell
+LIBCRYPTO={YOUR-libcrypto.a}
 ```
 
 ```shell
@@ -22,15 +29,11 @@ cd ..
 ## init pysqlcipher
 
 ```shell
-SQLCIPHER=$(pwd)/sqlcipher
-```
-
-```shell
 
 git clone https://github.com/rigglemania/pysqlcipher3
 cd pysqlcipher3
 
-mkdir amalgamation && cp $SQLCIPHER/sqlite3.[hc] amalgamation/
+mkdir amalgamation && cp ../sqlcipher/sqlite3.[hc] amalgamation/
 mkdir src/python3/sqlcipher && cp  amalgamation/sqlite3.h src/python3/sqlcipher/
 
 python setup.py build_amalgamation
@@ -39,15 +42,22 @@ python setup.py install
 cd ..
 ```
 
+## disable SIP, otherwise the dtrace can't be used
+
+```shell
+# check SIP
+csrutil status
+
+# disable SIP, need in recovery mode (hold on shift+R when rebooting)
+csrutil disable
+```
+
 ## monitor wechat database keys
 
 > comparing to `wechat-decipher-macos`, I make the script more robust.
 
 ```shell
-# monitor in the terminal
-pgrep -f '^/Applications/WeChat.app/Contents/MacOS/WeChat' | xargs sudo wechat-decipher-macos/macos/dbcracker.d -p
-
-# monitor into log file
+# monitor into log file, so that to be read by our programme
 pgrep -f '^/Applications/WeChat.app/Contents/MacOS/WeChat' | xargs sudo wechat-decipher-macos/macos/dbcracker.d -p > data/dbcracker.log
 ```
 
