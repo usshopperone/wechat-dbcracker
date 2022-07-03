@@ -1,6 +1,7 @@
 from typing import Optional
 
-from utils import auth_db, get_tables_of_conn, md5, logger
+from utils import auth_db, get_tables_of_conn, md5
+from log import logger
 
 '''
 a group sample:
@@ -45,7 +46,7 @@ groups = None
 def get_groups():
     global groups
     if groups is None:
-        conn = auth_db("Group/group_new.db")
+        conn = auth_db("IGroup/group_new.db")
 
         tables = get_tables_of_conn(conn)
 

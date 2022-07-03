@@ -4,8 +4,9 @@ from typing import Optional
 from argparse import ArgumentParser
 
 from const import DB_FILES, DATA_DIR
-from src.config import ME
-from utils import auth_db, logger, get_tables_of_conn, get_table_cols, init_db_keys_dict
+from config import ME
+from utils import auth_db, get_tables_of_conn, get_table_cols, init_db_keys_dict
+from log import logger
 from handle_friends import find_friend, get_friend_md5, get_friend_name
 from handle_groups import find_group, get_group_md5, get_group_name
 
@@ -63,19 +64,19 @@ if __name__ == '__main__':
     if not chat_md5:
         raise Exception(f"not found target chat")
 
+    seq = 0
     df = None
     for db_file in DB_FILES:
         if "msg" in db_file:
             df = find_chat_in_msg_db(db_file)
             if df is not None:
-                break
+                seq += 1
+                chats = []
+                for (k, v) in df.iterrows():
+                    content = v["StrRes1"]
+                    sender = chat_name if v["mesSvrID"] == 1 else ME
+                    send_time = v["IntRes2"]
+                    chats.append({"sender": sender, "content": content, "send_time": send_time})
 
-    chats = []
-    if df is not None:
-        for (k, v) in df.iterrows():
-            content = v["StrRes1"]
-            sender = chat_name if v["mesSvrID"] == 1 else ME
-            send_time = v["IntRes2"]
-            chats.append({"sender": sender, "content": content, "send_time": send_time})
-
-    json.dump(chats, open(os.path.join(DATA_DIR, f"chats-{chat_name}.json"), "w"), ensure_ascii=False, indent=2)
+                json.dump(chats, open(os.path.join(DATA_DIR, f"chats-{chat_name}-{seq}.json"), "w"), ensure_ascii=False,
+                          indent=2)

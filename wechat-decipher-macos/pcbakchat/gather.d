@@ -82,8 +82,7 @@ pid$target:WCDB:sqlcipher_cipher_ctx_key_derive:return
     printf("PRAGMA cipher_compatibility = 3;\n");
     printf("PRAGMA kdf_iter = %d;\n", self->c_ctx->kdf_iter);
     printf("PRAGMA cipher_page_size = %d;\n", self->ctx->page_sz);
-
-    trace("........................................\n");
+    printf("\n");
 
     self->ctx_u = 0;
     self->c_ctx_u = 0;

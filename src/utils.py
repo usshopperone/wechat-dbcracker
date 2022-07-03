@@ -1,21 +1,15 @@
 import hashlib
 import json
-import logging
 import os
 from typing import List
 
-from const import DB_CRACK_PATH
-from src.config import WECHAT_DB_ROOT
 from pysqlcipher3 import dbapi2 as sqlite
 from pysqlcipher3.dbapi2 import Connection
 
+from const import DB_CRACK_PATH
+from config import WECHAT_DB_ROOT
 
-logging.basicConfig(
-                    format='%(asctime)s - %(module)15s - %(levelname)5s: %(message)s',
-                    datefmt='%Y-%m-%d %H:%M:%S %p',
-                    level=logging.DEBUG)
-logger = logging.getLogger(__name__)
-
+from log import logger
 
 db_keys_dict = {}
 
@@ -47,7 +41,7 @@ def auth_db(db_file: str) -> Connection:
     logger.info(f"authenticating {db_file}")
 
     db_key = get_db_key(db_file)
-    logger.info({"db_key": db_key})
+    logger.info({"_db_key": db_key})
 
     db_path = get_db_path(db_file)
     logger.info({"dp_path": db_path})
@@ -77,4 +71,3 @@ def init_db_keys_dict():
     global db_keys_dict
     db_keys_dict = json.load(open(DB_CRACK_PATH))
     logger.debug({"db_keys_dict": db_keys_dict})
-

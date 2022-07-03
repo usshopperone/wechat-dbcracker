@@ -11,10 +11,10 @@ DB_CRACK_PATH = os.path.join(DATA_DIR, "db-crack.json")
 DB_FILES = (
     "Account/Beta.db",
     "ChatSync/ChatSync.db",
-    "Contact/wccontact_new2.db",
+    "IContact/wccontact_new2.db",
     "Favorites/favorites.db",
     "FileStateSync/filestatesync.db",
-    "Group/group_new.db",
+    "IGroup/group_new.db",
     "MMLive/live_main.db",
     "Message/fileMsg.db",
     "Message/fts/ftsmessage.db",

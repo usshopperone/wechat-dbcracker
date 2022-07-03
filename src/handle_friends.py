@@ -2,7 +2,8 @@ from typing import Optional
 
 import pandas as pd
 
-from utils import md5, get_tables_of_conn, get_table_cols, auth_db, logger
+from utils import md5, get_tables_of_conn, get_table_cols, auth_db
+from log import logger
 from const import FIELD_MD5_NAME
 
 
@@ -27,7 +28,7 @@ from const import FIELD_MD5_NAME
 'openIMInfo'
 '''
 
-DB_FILE = "Contact/wccontact_new2.db"
+DB_FILE = "IContact/wccontact_new2.db"
 
 CONTACT_COLUMNS_SELECTED = ["m_nsUsrName", "nickname", "m_nsRemark", "m_nsAliasName", "m_uiSex",
                             "m_nsHeadHDImgUrl"]
