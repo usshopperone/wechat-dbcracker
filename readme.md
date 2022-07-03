@@ -1,17 +1,25 @@
 # python driver for cracking/hacking wechat on macOS
 
-## init sqlcipher
+- version: 0.0.2 
+- date: 2022/07/04
+- author: markshawn
 
-### check where is your `libcrypto.a`
+## environment preparation
+
+### init sqlcipher
+
+1. check where is your `libcrypto.a`
 
 ```shell
 find /usr/local/Cellar -name libcrypto.a
 ```
 
-### then use the libcrypto.a with openssl version >= 3
+2. use the libcrypto.a with openssl version >= 3
 ```shell
 LIBCRYPTO={YOUR-libcrypto.a}
 ```
+
+3. install
 
 ```shell
 
@@ -26,7 +34,7 @@ make && make install
 cd ..
 ```
 
-## init pysqlcipher
+### init pysqlcipher
 
 ```shell
 
@@ -42,7 +50,7 @@ python setup.py install
 cd ..
 ```
 
-## disable SIP, otherwise the dtrace can't be used
+### disable SIP, otherwise the dtrace can't be used
 
 ```shell
 # check SIP
@@ -52,13 +60,30 @@ csrutil status
 csrutil disable
 ```
 
-## monitor wechat database keys
+## hook to get wechat database secret keys
 
 > comparing to `wechat-decipher-macos`, I make the script more robust.
 
 ```shell
 # monitor into log file, so that to be read by our programme
 pgrep -f '^/Applications/WeChat.app/Contents/MacOS/WeChat' | xargs sudo wechat-decipher-macos/macos/dbcracker.d -p > data/dbcracker.log
+```
+
+## run analysis
+
+### python environment preparation
+
+```shell
+pip install virtualenv
+virtualenv venv
+source venv/bin/python
+pip install -r requirements.txt
+```
+
+### test all the database keys
+
+```shell
+python src2/main.py
 ```
 
 ## ref
