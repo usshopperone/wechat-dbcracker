@@ -1,10 +1,17 @@
+import json
 from typing import List
 
+from base import DATA_DIR
+from log import get_logger
+from support.datetime import getCurTime
 from support.interface import IContact
-from support.utils import cursor2dictList, getMsgKeyFromWxid
+from support.json import jsonDump
+from support.db import cursor2dictList, getMsgKeyFromWxid
 
 from db import DB
 from db_center import DBCenter
+
+logger = get_logger('Contact')
 
 
 class Contact:
@@ -12,6 +19,19 @@ class Contact:
     def __init__(self, data: IContact, dbc: DBCenter):
         self._data = data
         self._dbc = dbc
+
+    @property
+    def name(self):
+        for key in [
+            'm_nsRemark',
+            'nickname',
+            'm_nsAliasName',
+            "m_nsUsrName"
+        ]:
+            if self._data[key]:
+                return self._data[key]
+        else:
+            raise ValueError
 
     @property
     def wxid(self) -> str:
@@ -42,3 +62,12 @@ class Contact:
         :return: 聊天记录
         """
         return cursor2dictList(self._msgDb.conn.execute(f"select * from {self._chatsKey}"))
+
+    def dumpChatHistory(self, dumpPath=None):
+        if dumpPath is None:
+            dumpPath = DATA_DIR / "out" / f'{self.name}_{getCurTime()}.json'
+        logger.debug(f'dumping into file://{dumpPath}')
+        chatHistory = self.queryChatHistory()
+        logger.debug(f"chat history: {chatHistory}")
+
+        jsonDump(chatHistory, dumpPath)

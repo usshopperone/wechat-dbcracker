@@ -1,5 +1,5 @@
 from src.utils import auth_db, get_tables_of_conn
-from support.utils import md5
+from support.db import md5
 
 conn = auth_db("IGroup/group_new.db")
 

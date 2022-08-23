@@ -2,7 +2,7 @@ from sqlite3.dbapi2 import Cursor
 from typing import List
 
 from contact import Contact
-from support.utils import genFindSql, cursor2dictList
+from support.db import genFindSql, cursor2dictList
 
 from db_center import DBCenter
 
@@ -21,26 +21,26 @@ def _findGroups(wdd: DBCenter, name, ambiguous=True, fromRemark=True, fromNickna
     return [Contact(i, wdd) for i in cursor2dictList(cursor)]
 
 
-def find(wdd: DBCenter, name, group, ambiguous=True, fromRemark=True, fromNickname=True, fromAliasName=False) \
+def find(wdd: DBCenter, name, isGroup, ambiguous=True, fromRemark=True, fromNickname=True, fromAliasName=False) \
         -> List[Contact]:
     """
 
     :param name:
-    :param group:
+    :param isGroup:
     :param ambiguous:
     :param fromRemark: remark就是自己给别人的备注，搜人时比较好用
     :param fromNickname: nickname是好友自己的昵称或者群名称
     :param fromAliasName: 为True时，其他两个字段都无效，因为它是微信注册id进行搜索
     :return:
     """
-    if group:
+    if isGroup:
         return _findGroups(wdd, name, ambiguous, fromRemark, fromNickname)
     else:
         return _findContacts(wdd, name, ambiguous, fromRemark, fromNickname, fromAliasName)
 
 
-def findEasy(wdd: DBCenter, name, group) -> Contact:
-    if group:
+def findEasy(wdd: DBCenter, name, isGroup) -> Contact:
+    if isGroup:
         return _findGroups(wdd, name, ambiguous=True, fromNickname=True, fromRemark=True)[0]
     else:
         return _findContacts(wdd, name, ambiguous=True, fromNickname=True, fromRemark=True, fromAliasName=False)[0]

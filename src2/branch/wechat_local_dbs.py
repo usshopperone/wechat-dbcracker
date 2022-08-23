@@ -38,7 +38,7 @@ available database paths:
 import os
 
 from branch.config import WDB_ROOT
-from support.utils import dropDS_Store, findDbs
+from support.db import dropDS_Store, findDbs
 
 
 class WechatLocalDatabases:

@@ -6,7 +6,7 @@ from pysqlcipher3._sqlite3 import Connection
 
 from support.const import PAGE_SIZE_BASE
 from support.log import logger
-from support.utils import connect_db
+from support.db import connect_db
 
 
 class DBBase:

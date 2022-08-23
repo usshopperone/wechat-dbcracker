@@ -6,22 +6,24 @@ from typing import List
 from pysqlcipher3 import dbapi2 as sqlite
 from pysqlcipher3._sqlite3 import Connection
 
-from support.log import logger
+from log import get_logger
+
+logger = get_logger('utils-db')
 
 
 def connect_db(
-        _db_path,
-        _db_key,
-        _db_cc: int,
-        _db_pagesize: int
+    _db_path,
+    _db_key,
+    _db_cc: int,
+    _db_pagesize: int
 ) -> Connection:
-    logger.info(f"connecting {_db_path}")
+    logger.debug(f"connecting {_db_path}")
     conn: Connection = sqlite.connect(_db_path)
     conn.execute(f'PRAGMA key = "{_db_key}";')
     conn.execute(f"PRAGMA cipher_compatibility = {_db_cc};")
     conn.execute(f"PRAGMA cipher_page_size = {_db_pagesize};")
     conn.commit()
-    logger.info("committed")
+    logger.debug("committed")
     return conn
 
 
@@ -78,7 +80,7 @@ def genFindSql(name, table_name, ambiguous=False, fromRemark=True, fromNickname=
             conditions.append("nickname " + conditionLaterPart)
         condition = " OR ".join(conditions)
     s = f"select * FROM {table_name} WHERE {condition}"
-    print("query: " + s)
+    logger.debug("query: " + s)
     return s
 
 

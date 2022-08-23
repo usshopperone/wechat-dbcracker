@@ -3,8 +3,11 @@ import os
 from typing import Dict, List
 
 from db import DB
+from log import get_logger
 from support.const import DATA_PATH
-from support.log import logger
+
+
+logger = get_logger('DBCenter')
 
 
 class DBCenter:
@@ -19,7 +22,7 @@ class DBCenter:
             # logger.warning("database existed: " + fn)
             return
         self.dbs[fn] = DB(fp, key)
-        logger.info("added one db: " + fn)
+        logger.debug("added one db: " + fn)
 
     def addFinish(self):
         # gen chat maps
@@ -29,10 +32,10 @@ class DBCenter:
                 assert db.db_name == self.chatsMap.get(table_name, db.db_name)
                 self.chatsMap[table_name] = db.db_name
 
-        chatmap_fp = os.path.join(DATA_PATH, "chatmap.json")
+        chatmap_fp = os.path.join(DATA_PATH, "gen", "chatmap.json")
         with open(chatmap_fp, "w") as f:
             json.dump(self.chatsMap, f, indent=2, ensure_ascii=False)
-            print(f"generated chatmap to {chatmap_fp}")
+            logger.info(f"generated chatmap to file://{chatmap_fp}")
 
     @property
     def dbOfContact(self) -> DB:
@@ -45,3 +48,22 @@ class DBCenter:
     @property
     def dbOfMsgs(self) -> List[DB]:
         return [self.dbs[i] for i in self.dbs if i.startswith("msg")]
+
+
+def createDBCenter() -> DBCenter:
+    wdd = DBCenter()
+
+    with open(os.path.join(DATA_PATH, "dbcracker.log")) as f:
+        db_path = db_key = None
+        for line in f.readlines():
+            if line.startswith("sqlcipher"):
+                db_path = line.split(":", 1)[1].strip()[1:-1]
+            elif line.startswith("PRAGMA"):
+                db_key = line.split(";", 1)[0].split("=", 1)[1].strip()[1:-1]
+            else:
+                db_path = db_key = None
+
+            if db_path and db_key:
+                wdd.addDatabase(db_path, db_key)
+        wdd.addFinish()
+    return wdd
