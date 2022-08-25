@@ -18,8 +18,7 @@ class BytesEncoder(json.JSONEncoder):
         return json.JSONEncoder.default(self, obj)
 
 
-def jsonDump(obj, fp, **kwargs):
+def jsonDump(obj, fp: str, **kwargs):
     with open(fp, "w") as f:
         json.dump(obj, f, indent=2, ensure_ascii=False, cls=BytesEncoder, **kwargs)
-        logger.info(f'dumped into file://{quote(str(fp))}')
-
+        logger.info('dumped into file://' + fp)

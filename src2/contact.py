@@ -1,4 +1,5 @@
 from typing import List
+from urllib.parse import quote
 
 from base import DATA_DIR
 from log import get_logger
@@ -64,7 +65,7 @@ class Contact:
 
     def dumpChatHistory(self, dumpPath=None):
         if dumpPath is None:
-            dumpPath = DATA_DIR / "out" / f'{self.name}_{getCurTime()}.json'
+            dumpPath = str(DATA_DIR / "out" / f'{self.name}_{getCurTime()}.json')
         logger.debug(f'dumping into file://{dumpPath}')
         chatHistory = self.queryChatHistory()
         logger.debug(f"chat history: {chatHistory}")

@@ -51,7 +51,7 @@ class DBCenter:
 
 
 def createDBCenter() -> DBCenter:
-    wdd = DBCenter()
+    dbc = DBCenter()
 
     with open(os.path.join(DATA_PATH, "dbcracker.log")) as f:
         db_path = db_key = None
@@ -64,6 +64,6 @@ def createDBCenter() -> DBCenter:
                 db_path = db_key = None
 
             if db_path and db_key:
-                wdd.addDatabase(db_path, db_key)
-        wdd.addFinish()
-    return wdd
+                dbc.addDatabase(db_path, db_key)
+        dbc.addFinish()
+    return dbc

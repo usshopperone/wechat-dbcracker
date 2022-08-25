@@ -1,6 +1,6 @@
 from pprint import pprint
 
-file = "../data/old/chats-朱思奕-merged.json"
+file = "../data/out/old/chats-朱思奕-merged.json"
 
 import re
 from collections import defaultdict

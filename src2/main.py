@@ -1,25 +1,25 @@
 import os
 
-from db_center import DBCenter
+from db_center import DBCenter, createDBCenter
 from support.const import DATA_PATH
+from support.find import findEasy
 
-dbc = DBCenter()
-
-with open(os.path.join(DATA_PATH, "dbcracker.log")) as f:
-    db_path = db_key = None
-    for line in f.readlines():
-        if line.startswith("sqlcipher"):
-            db_path = line.split(":", 1)[1].strip()[1:-1]
-        elif line.startswith("PRAGMA"):
-            db_key = line.split(";", 1)[0].split("=", 1)[1].strip()[1:-1]
-        else:
-            db_path = db_key = None
-
-        if db_path and db_key:
-            dbc.addDatabase(db_path, db_key)
-    dbc.addFinish()
 
 if __name__ == '__main__':
     import argparse
 
-    pass
+    parser = argparse.ArgumentParser()
+    parser.add_argument('search_key')
+    parser.add_argument('-g', '--is-group', action='store_true')
+    parser.add_argument('-q', '--query-chat-history', action='store_true')
+    parser.add_argument('-d', '--dump-chat-history', action='store_true')
+
+    args = parser.parse_args()
+    print(args)
+
+    dbc = createDBCenter()
+    contact = findEasy(dbc, args.search_key, isGroup=args.is_group)
+    if args.query_chat_history:
+        print(contact.queryChatHistory())
+    if args.dump_chat_history:
+        contact.dumpChatHistory()
